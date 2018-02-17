@@ -12,9 +12,11 @@ public class ShorthandImage {
     private int vowelRadius;
     private double curviness;
     private char lastLetter;
+    private JFrame jFrame;
+    private JLabel jLabel;
 
-    public ShorthandImage(int rows, int iters, Point position, Color color) {
-        this.bufferedImage = new BufferedImage(rows, iters, 1);
+    public ShorthandImage(int rows, int cols, Point position, Color color) {
+        this.bufferedImage = new BufferedImage(rows, cols, 1);
         this.position = position;
         this.color = color.getRGB();
         defaultY = position.y;
@@ -23,17 +25,18 @@ public class ShorthandImage {
         vowelRadius = 5;
         lastLetter = ' ';
         curviness = 0.2;
+
+        this.jFrame = new JFrame("Shorthand Image");
+        jFrame.setLayout(new FlowLayout());
+        jLabel = new JLabel();
+        jFrame.setSize(bufferedImage.getWidth() + 10, bufferedImage.getHeight() + 50);
     }
 
-    public ShorthandImage(int rows, int iters, Point position, Color color, int longLength, int shortLength, int vowelSize) {
-        this.bufferedImage = new BufferedImage(rows, iters, 1);
-        this.position = position;
-        this.color = color.getRGB();
-        defaultY = position.y;
+    public ShorthandImage(int rows, int cols, Point position, Color color, int longLength, int shortLength, int vowelSize) {
+        this(rows, cols, position, color);
         this.longLength = longLength;
         this.shortLength = shortLength;
         this.vowelRadius = vowelSize;
-        lastLetter = ' ';
     }
 
     public void draw(char chr) {
@@ -358,14 +361,14 @@ public class ShorthandImage {
     }
 
     public void displayImage() {
-        JFrame jFrame = new JFrame("Shorthand Image");
-        jFrame.setLayout(new FlowLayout());
-        JLabel lbl = new JLabel();
-        jFrame.setSize(bufferedImage.getWidth() + 10, bufferedImage.getHeight() + 50);
         ImageIcon icon = new ImageIcon(bufferedImage);
-        lbl.setIcon(icon);
-        jFrame.add(lbl);
+        this.jLabel.setIcon(icon);
+        jFrame.add(this.jLabel);
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void hideImage() {
+        jFrame.setVisible(false);
     }
 }
